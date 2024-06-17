@@ -44,8 +44,42 @@ export class AgregarEmpleadoComponent implements OnInit {
         Validators.required,
         Validators.pattern('[a-z0-9._%+-]+@[a-z0-9._%+-]+.[a-z]{2,3}$'),
       ]],
-
+      telefono:['',[
+        Validators.required,
+        Validators.pattern('[^[0-9]+$'),
+      ]],
     });
+  }
+
+  //Método para asignar el departamento seleccionado por el usuario
+  actualizarDepartamento(d){
+    this.empleadoForm.get('departamento').setValue(d,{
+      onlySelf:true
+    });
+  }
+
+  //Getter para acceder a los controles del formulario
+  get myForm(){
+    return this.empleadoForm.controls;
+  }
+
+  //Método para enviar el formulario
+  onSubmit(){
+    this.enviado = true;
+    if(!this.empleadoForm.valid){
+      return false;
+    }else{
+      return this.empleadoService.agregarEmpleado(this.empleadoForm.value)
+      .subscribe({
+        complete: ()=>{
+          console.log('Empleado agregado correctamente')
+          this.NgZone.run(()=> this.router.navigateByUrl('/listar-empleados'))
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      })  
+    }
   }
 
 }
