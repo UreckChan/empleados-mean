@@ -46,7 +46,7 @@ export class AgregarEmpleadoComponent implements OnInit {
       ]],
       telefono:['',[
         Validators.required,
-        Validators.pattern('[^[0-9]+$'),
+        Validators.pattern('^[0-9]+$'),
       ]],
     });
   }
